@@ -1,50 +1,71 @@
-# Welcome to your Expo app 👋
+# RoadRage – Road Damage Detection
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo React Native application for detecting road surface damage using an AI model running on a Python backend.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Analyze photos from gallery** – pick and analyze road images from the device gallery
+- **Python AI backend** – YOLOv8 model for detecting road damage classes (D00, D10, D20, D40)
+- **Dark theme only** – UI optimized for dark mode
+
+## Tech stack
+
+- **Expo + React Native** – mobile application
+- **FastAPI + Ultralytics YOLOv8** – backend for damage detection
+- **expo-image-picker** – image selection from gallery
+
+## Installation
+
+1. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Start the Expo app:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. Choose a platform:
+   - Press `i` for iOS simulator
+   - Press `a` for Android emulator
+   - Or scan the QR code to run on a physical device
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Usage
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. Open the **Home** screen.
+2. Tap **Select photo** and choose a road image from the gallery.
+3. Tap **Analyze** to send the image to the backend and see detected damage.
 
-## Get a fresh project
+## Notes
 
-When you're ready, run:
+- Detection is performed on a Python backend with a YOLOv8 model running locally or on a service like Railway.
+- Make sure the mobile app can reach the backend over the network (IP and port are configured in `services/roadDamageYolo.ts` or via `EXPO_PUBLIC_BACKEND_URL`).
 
-```bash
-npm run reset-project
+## Project structure
+
+```
+RoadRage/
+├── app/
+│   ├── _layout.tsx         # Root layout and navigation
+│   ├── index.tsx           # Home screen with gallery analysis
+│   └── modal.tsx           # Modal screen (if used)
+├── backend/
+│   ├── main.py             # FastAPI backend with YOLOv8
+│   ├── models/
+│   │   └── rdd.pt          # YOLOv8 model file for damage detection
+│   ├── README.md           # Backend setup (local and Railway)
+│   └── requirements.txt    # Backend Python dependencies
+├── components/
+│   ├── GalleryView.tsx     # Gallery + analysis component
+│   ├── themed-text.tsx     # Themed text
+│   └── themed-view.tsx     # Themed container view
+└── services/
+    └── roadDamageYolo.ts   # Client for calling the Python backend
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## License
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Private project by asukhorada
