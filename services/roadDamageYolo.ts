@@ -88,7 +88,7 @@ export async function detectRoadDamageYolo(
       const sorted = [...detections].sort((a, b) => b.score - a.score);
       const top = sorted[0];
       const topInfo = ROAD_DAMAGE_CLASSES[top.classId];
-      damageType = `${topInfo.code} — ${topInfo.name}`;
+      damageType = `${topInfo.code} - ${topInfo.name}`;
     }
 
     return {
