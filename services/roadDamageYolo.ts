@@ -1,8 +1,7 @@
+import { Platform } from 'react-native';
 import { ROAD_DAMAGE_CLASSES, type RoadDamageClassId } from '@/constants/roadDamage';
 
-
-export const BACKEND_URL =
-  process.env.EXPO_PUBLIC_BACKEND_URL ?? 'http://192.168.0.163:8000';
+export const BACKEND_URL = 'https://road-rage-backend.onrender.com';
 
 export interface RoadDamageBox {
   x: number;
@@ -25,16 +24,24 @@ export interface RoadDamageResult {
 
 export async function detectRoadDamageYolo(
   imageUri: string,
-  imageWidth: number,
-  imageHeight: number
 ): Promise<RoadDamageResult> {
   try {
     const formData = new FormData();
-    formData.append('file', {
-      uri: imageUri,
-      name: 'image.jpg',
-      type: 'image/jpeg',
-    } as any);
+
+    if (Platform.OS === 'web') {
+      const res = await fetch(imageUri);
+      const blob = await res.blob();
+      const file = new File([blob], 'image.jpg', {
+        type: blob.type || 'image/jpeg',
+      });
+      formData.append('file', file);
+    } else {
+      formData.append('file', {
+        uri: imageUri,
+        name: 'image.jpg',
+        type: 'image/jpeg',
+      } as any);
+    }
 
     const response = await fetch(`${BACKEND_URL}/detect`, {
       method: 'POST',
